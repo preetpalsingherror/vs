@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffe6e6; /* Soft Pink Background */
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Stops scrollbars from appearing */
+        }
+
+        h1 {
+            color: #d32f2f;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 0 20px;
+        }
+
+        .buttons-container {
+            text-align: center;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            position: relative; /* Default position */
+            z-index: 5;
+        }
+
+        #yesBtn {
+            background-color: #ff4081;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            background-color: #f50057;
+        }
+
+        #noBtn {
+            background-color: #ffffff;
+            color: #ff4081;
+            border: 2px solid #ff4081;
+        }
+
+        /* The hidden popup */
+        #surprise {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 10;
+        }
+
+        #surprise img {
+            max-width: 80%;
+            max-height: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        #surprise h2 {
+            color: #d32f2f;
+            font-size: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="buttons-container">
+        <h1>Will you be my Valentine? 🌹</h1>
+        <button class="btn" id="yesBtn">Yes!</button>
+        <button class="btn" id="noBtn">No</button>
+    </div>
+
+    <div id="surprise">
+        <img src="https://media.giphy.com/media/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Ring">
+        <h2>I knew you'd say Yes! 💍❤️</h2>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const surprise = document.getElementById('surprise');
+
+        // Function to move the button to a random spot
+        function moveButton() {
+            // Get window dimensions
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            // Get button dimensions
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            // Calculate random position
+            // We subtract btn sizes to keep it inside the screen
+            const randomX = Math.random() * (windowWidth - btnWidth);
+            const randomY = Math.random() * (windowHeight - btnHeight);
+
+            // Apply new position using FIXED to ensure it moves anywhere on screen
+            noBtn.style.position = 'fixed'; 
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // Event Listeners for Moving the "No" Button
+        noBtn.addEventListener('mouseover', moveButton); // Desktop hover
+        noBtn.addEventListener('click', moveButton);     // Fallback click
+        noBtn.addEventListener('touchstart', function(e) { // Mobile touch
+            e.preventDefault(); // Stop the click from happening
+            moveButton();
+        });
+
+        // Event Listener for the "Yes" Button
+        yesBtn.addEventListener('click', () => {
+            surprise.style.display = 'flex';
+            
+            // Try to fire confetti, but don't crash if it fails
+            try {
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } catch (e) {
+                console.log("Confetti not loaded, but that's okay!");
+            }
+        });
+    </script>
+</body>
+</html>
