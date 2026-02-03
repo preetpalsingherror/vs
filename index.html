@@ -210,7 +210,7 @@
     </div>
 
     <div id="surprise">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExODF4eDg4cHU4aGg0eHlqMXZ4dXF6aG15eG15eG15eG15eG15eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LpDmM2wSt6Hm4/giphy.gif" alt="Ring">
+        <img src="https://media.tenor.com/uG2s16A9l1wAAAAi/engagement-ring-diamond.gif" alt="Ring">
         <h2>I LOVE YOU! ❤️</h2>
         <p>You are officially my Valentine.</p>
         
@@ -223,7 +223,7 @@
 
     <script>
         // --- CONFIG --- 
-        const yourPhoneNumber = "917795253497"; // YOUR NUMBER IS SET HERE
+        const yourPhoneNumber = "917795253497"; // YOUR NUMBER
 
         const questions = [
             {
@@ -268,12 +268,11 @@
             heart.style.animationDuration = Math.random() * 3 + 4 + 's'; // Random speed (4-7s)
             document.body.appendChild(heart);
             
-            // Remove heart after animation ends to keep browser fast
+            // Remove heart after animation ends
             setTimeout(() => {
                 heart.remove();
             }, 7000);
         }
-        // Create a new heart every 300ms
         setInterval(createHeart, 300);
 
 
