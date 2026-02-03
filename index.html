@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Little Question...</title>
+    <title>A Question for You...</title>
     <style>
         body {
             margin: 0;
@@ -17,34 +17,36 @@
             overflow: hidden;
         }
 
-        /* Container for the Quiz and Final Proposal */
         #main-container {
             text-align: center;
             width: 90%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 40px;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 20;
         }
 
         h1 {
             color: #d32f2f;
-            font-size: 2rem;
-            margin-bottom: 30px;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
         }
 
-        /* Option Buttons (Quiz) */
+        /* Option Buttons */
         .option-btn {
             display: block;
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             margin: 10px 0;
-            font-size: 1.1rem;
+            font-size: 1rem;
             background-color: white;
             color: #ff4081;
             border: 2px solid #ff4081;
-            border-radius: 50px;
+            border-radius: 25px;
             cursor: pointer;
             transition: 0.3s;
         }
@@ -54,7 +56,28 @@
             color: white;
         }
 
-        /* The Final Buttons (Yes/No) */
+        /* Text Input for the Date Question */
+        .text-input {
+            width: 80%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #ff4081;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .next-btn {
+            background-color: #d32f2f;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Final Yes/No Buttons */
         .final-btn-group {
             display: flex;
             justify-content: center;
@@ -69,27 +92,12 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 100;
         }
 
-        #yesBtn {
-            background-color: #ff4081;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        #yesBtn { background-color: #ff4081; color: white; }
+        #noBtn { background-color: white; color: #ff4081; border: 2px solid #ff4081; }
 
-        #noBtn {
-            background-color: white;
-            color: #ff4081;
-            border: 2px solid #ff4081;
-        }
-
-        /* Hidden elements */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Success Pop-up */
+        /* Success Screen */
         #surprise {
             display: none;
             flex-direction: column;
@@ -100,13 +108,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.98);
-            z-index: 200;
+            background-color: rgba(255, 230, 230, 0.98);
+            z-index: 30;
+            text-align: center;
         }
 
         #surprise img {
-            max-width: 80%;
-            max-height: 300px;
+            width: 250px;
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             margin-bottom: 20px;
@@ -114,16 +122,43 @@
 
         #surprise h2 {
             color: #d32f2f;
-            font-size: 2rem;
-            text-align: center;
+            font-size: 2.5rem;
+            margin: 10px 0;
         }
+
+        #surprise p {
+            font-size: 1.5rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Utility */
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
     <div id="main-container">
         <h1 id="question-text">Loading...</h1>
+        
         <div id="options-container"></div>
+
+        <div id="input-container" class="hidden">
+            <input type="text" id="date-input" class="text-input" placeholder="Type a place here...">
+            <br>
+            <button class="next-btn" onclick="handleInput()">Next</button>
+        </div>
         
         <div id="final-buttons" class="hidden final-btn-group">
             <button class="btn" id="yesBtn">Yes!</button>
@@ -133,106 +168,158 @@
 
     <div id="surprise">
         <img src="https://media.giphy.com/media/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Ring">
-        <h2>I knew you'd say Yes! 💍❤️</h2>
+        <h2>I LOVE YOU! ❤️</h2>
+        <p>You are officially my Valentine.</p>
+        
+        <a id="whatsapp-link" href="#" class="whatsapp-btn" target="_blank">
+            Tell him I said Yes! 💌
+        </a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
-        // --- YOUR QUESTIONS HERE ---
-        // You can add as many as you want!
+        // --- DATA & CONFIG --- 
+        // 1. REPLACE THIS WITH YOUR PHONE NUMBER (No spaces, include country code like 91 for India)
+        const yourPhoneNumber = "917795253497"; 
+
         const questions = [
+            {
+                type: 'choice',
+                text: "What do you like most about me?",
+                options: ["Your smile", "Your personality", "my fast replies" ,"Everything!"]
+            },
             {
                 text: "First things first: Who is the cutest person in the world?",
                 options: ["Me (obviously)", "You", "Both of us"]
             },
             {
-                text: "What do you like most about me?",
-                options: ["My smile", "My fast replies", "Everything"]
+                type: 'choice',
+                text: "Are you coming to meet me before Ramzan?",
+                options: ["Yes, definitely!", "I will try my best", "Of course, I miss you!"]
             },
             {
-                text: "What is my most annoying habit?",
-                options: ["Being too perfect", "Texting too much", "I have none!"]
+                type: 'input',
+                text: "Where do you want us to go for a date?"
             },
-            // The Final Question is special
             {
-                text: "Okay, last question... Will you be my Valentine? 🌹",
-                isFinal: true
+                type: 'final',
+                text: "Will you be my Valentine? 🌹"
             }
         ];
 
-        let currentQuestionIndex = 0;
-        
+        let currentStep = 0;
+        let userAnswers = {}; // We will store her answers here
+
+        // Elements
         const questionText = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
+        const inputContainer = document.getElementById('input-container');
+        const dateInput = document.getElementById('date-input');
         const finalButtons = document.getElementById('final-buttons');
+        const surprise = document.getElementById('surprise');
+        const whatsappLink = document.getElementById('whatsapp-link');
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        const surprise = document.getElementById('surprise');
 
         function loadQuestion() {
-            const currentQuestion = questions[currentQuestionIndex];
-            questionText.innerText = currentQuestion.text;
-            optionsContainer.innerHTML = ''; // Clear old buttons
+            const q = questions[currentStep];
+            questionText.innerText = q.text;
+            
+            // Reset Views
+            optionsContainer.innerHTML = '';
+            inputContainer.classList.add('hidden');
+            finalButtons.classList.add('hidden');
 
-            if (currentQuestion.isFinal) {
-                // If it's the final question, show the Yes/No buttons
-                finalButtons.classList.remove('hidden');
-                
-                // Add the logic for the moving "No" button
-                setupFinalButtons();
-            } else {
-                // Create buttons for normal questions
-                currentQuestion.options.forEach(option => {
+            if (q.type === 'choice') {
+                q.options.forEach(option => {
                     const btn = document.createElement('button');
                     btn.classList.add('option-btn');
                     btn.innerText = option;
-                    btn.onclick = nextQuestion; // Clicking any option goes to next
+                    btn.onclick = () => handleAnswer(q.text, option);
                     optionsContainer.appendChild(btn);
                 });
+            } 
+            else if (q.type === 'input') {
+                inputContainer.classList.remove('hidden');
+                dateInput.value = ''; // Clear previous input
+                dateInput.focus();
+            }
+            else if (q.type === 'final') {
+                finalButtons.classList.remove('hidden');
+                setupFinalTricks();
             }
         }
 
-        function nextQuestion() {
-            currentQuestionIndex++;
+        // Handle Multiple Choice
+        function handleAnswer(question, answer) {
+            userAnswers[question] = answer;
+            nextStep();
+        }
+
+        // Handle Text Input
+        function handleInput() {
+            const val = dateInput.value.trim();
+            if (val === "") {
+                alert("Please type a place!");
+                return;
+            }
+            userAnswers[questions[currentStep].text] = val;
+            nextStep();
+        }
+
+        function nextStep() {
+            currentStep++;
             loadQuestion();
         }
 
-        // --- Logic for the Moving "No" Button ---
-        function setupFinalButtons() {
+        // --- FINAL TRICK LOGIC ---
+        function setupFinalTricks() {
             // Move No Button
             function moveButton() {
-                const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight;
-                const btnWidth = noBtn.offsetWidth;
-                const btnHeight = noBtn.offsetHeight;
-
-                // Random position
-                const randomX = Math.random() * (windowWidth - btnWidth);
-                const randomY = Math.random() * (windowHeight - btnHeight);
-
-                noBtn.style.position = 'fixed'; // Break it out of the container
-                noBtn.style.left = randomX + 'px';
-                noBtn.style.top = randomY + 'px';
+                const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+                const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = `${x}px`;
+                noBtn.style.top = `${y}px`;
             }
-
             noBtn.addEventListener('mouseover', moveButton);
-            noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
             noBtn.addEventListener('click', moveButton);
+            noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
 
             // Yes Button
             yesBtn.addEventListener('click', () => {
+                // 1. Show Surprise
                 surprise.style.display = 'flex';
-                try {
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                } catch (e) {}
+                
+                // 2. Fire Confetti
+                try { confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } }); } catch(e){}
+
+                // 3. Prepare the WhatsApp Message
+                prepareWhatsAppMessage();
             });
         }
 
-        // Start the quiz
-        loadQuestion();
+        function prepareWhatsAppMessage() {
+            let message = "Hey! I just said YES to being your Valentine! 💍❤️\n\nHere are my answers:\n";
+            
+            // Loop through answers and add them to the message
+            for (const [question, answer] of Object.entries(userAnswers)) {
+                message += `\n❓ ${question}\n✅ ${answer}\n`;
+            }
 
+            message += "\nI love you! ❤️";
+
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(message);
+            const finalUrl = `https://wa.me/${yourPhoneNumber}?text=${encodedMessage}`;
+            
+            // Update the link href
+            whatsappLink.href = finalUrl;
+        }
+
+        // Start
+        loadQuestion();
     </script>
 </body>
-</html>
 </html>
