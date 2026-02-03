@@ -50,9 +50,9 @@
 
         h1 {
             color: #d81b60;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-bottom: 25px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         /* Option Buttons */
@@ -150,12 +150,11 @@
         }
 
         #surprise img {
-            width: 280px;
+            width: 250px;
             height: auto;
             border-radius: 20px;
             margin-bottom: 20px;
-            /* Drop shadow to make the ring pop */
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2)); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
         }
 
         #surprise h2 {
@@ -204,13 +203,13 @@
         </div>
         
         <div id="final-buttons" class="hidden final-btn-group">
-            <button class="btn" id="yesBtn">Yes! 💍</button>
+            <button class="btn" id="yesBtn">Yes! ❤️</button>
             <button class="btn" id="noBtn">No</button>
         </div>
     </div>
 
     <div id="surprise">
-        <img src="https://media.tenor.com/uG2s16A9l1wAAAAi/engagement-ring-diamond.gif" alt="Ring">
+        <img src="https://media.giphy.com/media/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute Bunny">
         <h2>I LOVE YOU! ❤️</h2>
         <p>You are officially my Valentine.</p>
         
@@ -228,21 +227,36 @@
         const questions = [
             {
                 type: 'choice',
-                text: "First question: What do you like most about me?",
-                options: ["Your Smile 😊", "Your Personality ✨", "Literally Everything ❤️"]
+                text: "Question 1: Who is the cutest couple in the world? 🤔",
+                options: ["Me and You", "Us", "Definitely Us!"]
             },
             {
                 type: 'choice',
-                text: "Are you coming to meet me before Ramzan?",
+                text: "Question 2: What do you like most about me?",
+                options: ["My Smile 😊", "My Personality ✨", "Everything! ❤️"]
+            },
+            {
+                type: 'choice',
+                text: "Question 3: Do you know that you are the most beautiful woman my eyes have ever seen (or will ever see)? 🥺",
+                options: ["Yes, I know! 🙈", "Really? 💖", "I love you!"]
+            },
+            {
+                type: 'choice',
+                text: "Question 4: Are you coming to meet me before Ramzan?",
                 options: ["Yes, definitely! 🌙", "I will try my best", "Of course, I miss you!"]
             },
             {
+                type: 'choice',
+                text: "Question 5: How much do you love me?",
+                options: ["A lot", "To the moon and back 🚀", "Infinity ♾️"]
+            },
+            {
                 type: 'input',
-                text: "Where do you want us to go for a date?"
+                text: "Last detail: Where do you want us to go for a date?"
             },
             {
                 type: 'final',
-                text: "Okay last question... Will you be my Valentine? 🌹"
+                text: "Okay final question... Will you be my Valentine? 🌹"
             }
         ];
 
@@ -263,15 +277,11 @@
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            heart.innerHTML = Math.random() < 0.5 ? '❤️' : '💖'; // Randomize heart color
-            heart.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
-            heart.style.animationDuration = Math.random() * 3 + 4 + 's'; // Random speed (4-7s)
+            heart.innerHTML = Math.random() < 0.5 ? '❤️' : '💖';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's'; 
             document.body.appendChild(heart);
-            
-            // Remove heart after animation ends
-            setTimeout(() => {
-                heart.remove();
-            }, 7000);
+            setTimeout(() => { heart.remove(); }, 7000);
         }
         setInterval(createHeart, 300);
 
@@ -346,7 +356,7 @@
         }
 
         function prepareWhatsAppMessage() {
-            let message = "Hey! I just said YES to being your Valentine! 💍❤️\n\nHere are my answers:\n";
+            let message = "Hey! I just said YES to being your Valentine! 🐰❤️\n\nHere are my answers:\n";
             for (const [question, answer] of Object.entries(userAnswers)) {
                 message += `\n❓ ${question}\n✅ ${answer}\n`;
             }
