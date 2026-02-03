@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Question for You...</title>
+    <title>For You ❤️</title>
     <style>
         body {
             margin: 0;
@@ -12,27 +12,46 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #ffe6e6;
+            background: linear-gradient(180deg, #ffe6e6 0%, #ffc1e3 100%);
             font-family: 'Arial', sans-serif;
             overflow: hidden;
+            position: relative;
         }
 
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            font-size: 2rem;
+            animation: floatUp 6s linear infinite;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Main Box */
         #main-container {
             text-align: center;
             width: 90%;
             max-width: 500px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             position: relative;
             z-index: 20;
+            transition: height 0.3s;
         }
 
         h1 {
-            color: #d32f2f;
+            color: #d81b60;
             font-size: 1.8rem;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             line-height: 1.4;
         }
 
@@ -40,44 +59,49 @@
         .option-btn {
             display: block;
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            font-size: 1rem;
+            padding: 14px;
+            margin: 12px 0;
+            font-size: 1.1rem;
             background-color: white;
-            color: #ff4081;
-            border: 2px solid #ff4081;
-            border-radius: 25px;
+            color: #d81b60;
+            border: 2px solid #d81b60;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s;
+            font-weight: bold;
         }
 
         .option-btn:hover {
-            background-color: #ff4081;
+            background-color: #d81b60;
             color: white;
+            transform: scale(1.02);
         }
 
-        /* Text Input for the Date Question */
+        /* Input Field */
         .text-input {
-            width: 80%;
-            padding: 10px;
-            font-size: 1rem;
-            border: 2px solid #ff4081;
-            border-radius: 10px;
+            width: 85%;
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 2px solid #d81b60;
+            border-radius: 15px;
             margin-bottom: 15px;
             outline: none;
+            text-align: center;
         }
 
         .next-btn {
-            background-color: #d32f2f;
+            background-color: #d81b60;
             color: white;
-            padding: 10px 30px;
+            padding: 12px 40px;
             border: none;
-            border-radius: 20px;
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3);
         }
 
-        /* Final Yes/No Buttons */
+        /* Yes/No Buttons */
         .final-btn-group {
             display: flex;
             justify-content: center;
@@ -87,15 +111,27 @@
 
         .btn {
             padding: 15px 40px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: bold;
         }
 
-        #yesBtn { background-color: #ff4081; color: white; }
-        #noBtn { background-color: white; color: #ff4081; border: 2px solid #ff4081; }
+        #yesBtn { 
+            background-color: #d81b60; 
+            color: white; 
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.4);
+        }
+        
+        #yesBtn:active { transform: scale(0.95); }
+
+        #noBtn { 
+            background-color: white; 
+            color: #d81b60; 
+            border: 2px solid #d81b60; 
+        }
 
         /* Success Screen */
         #surprise {
@@ -108,42 +144,49 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 230, 230, 0.98);
-            z-index: 30;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 100;
             text-align: center;
         }
 
         #surprise img {
-            width: 250px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            width: 280px;
+            height: auto;
+            border-radius: 20px;
             margin-bottom: 20px;
+            /* Drop shadow to make the ring pop */
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2)); 
         }
 
         #surprise h2 {
-            color: #d32f2f;
+            color: #d81b60;
             font-size: 2.5rem;
             margin: 10px 0;
         }
 
         #surprise p {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: #555;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .whatsapp-btn {
             background-color: #25D366;
             color: white;
-            padding: 15px 30px;
+            padding: 18px 35px;
             text-decoration: none;
             font-weight: bold;
             border-radius: 50px;
             font-size: 1.2rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s;
         }
+        
+        .whatsapp-btn:hover { transform: scale(1.05); }
 
-        /* Utility */
         .hidden { display: none; }
     </style>
 </head>
@@ -155,19 +198,19 @@
         <div id="options-container"></div>
 
         <div id="input-container" class="hidden">
-            <input type="text" id="date-input" class="text-input" placeholder="Type a place here...">
+            <input type="text" id="date-input" class="text-input" placeholder="Type a place (e.g., Starbucks)...">
             <br>
-            <button class="next-btn" onclick="handleInput()">Next</button>
+            <button class="next-btn" onclick="handleInput()">Next ➜</button>
         </div>
         
         <div id="final-buttons" class="hidden final-btn-group">
-            <button class="btn" id="yesBtn">Yes!</button>
+            <button class="btn" id="yesBtn">Yes! 💍</button>
             <button class="btn" id="noBtn">No</button>
         </div>
     </div>
 
     <div id="surprise">
-        <img src="https://media.giphy.com/media/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Ring">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExODF4eDg4cHU4aGg0eHlqMXZ4dXF6aG15eG15eG15eG15eG15eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LpDmM2wSt6Hm4/giphy.gif" alt="Ring">
         <h2>I LOVE YOU! ❤️</h2>
         <p>You are officially my Valentine.</p>
         
@@ -179,24 +222,19 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
-        // --- DATA & CONFIG --- 
-        // 1. REPLACE THIS WITH YOUR PHONE NUMBER (No spaces, include country code like 91 for India)
-        const yourPhoneNumber = "917795253497"; 
+        // --- CONFIG --- 
+        const yourPhoneNumber = "917795253497"; // YOUR NUMBER IS SET HERE
 
         const questions = [
             {
                 type: 'choice',
-                text: "What do you like most about me?",
-                options: ["Your smile", "Your personality", "my fast replies" ,"Everything!"]
-            },
-            {
-                text: "First things first: Who is the cutest person in the world?",
-                options: ["Me (obviously)", "You", "Both of us"]
+                text: "First question: What do you like most about me?",
+                options: ["Your Smile 😊", "Your Personality ✨", "Literally Everything ❤️"]
             },
             {
                 type: 'choice',
                 text: "Are you coming to meet me before Ramzan?",
-                options: ["Yes, definitely!", "I will try my best", "Of course, I miss you!"]
+                options: ["Yes, definitely! 🌙", "I will try my best", "Of course, I miss you!"]
             },
             {
                 type: 'input',
@@ -204,14 +242,13 @@
             },
             {
                 type: 'final',
-                text: "Will you be my Valentine? 🌹"
+                text: "Okay last question... Will you be my Valentine? 🌹"
             }
         ];
 
         let currentStep = 0;
-        let userAnswers = {}; // We will store her answers here
+        let userAnswers = {};
 
-        // Elements
         const questionText = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
         const inputContainer = document.getElementById('input-container');
@@ -222,11 +259,29 @@
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
 
+        // --- FLOATING HEARTS ANIMATION ---
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = Math.random() < 0.5 ? '❤️' : '💖'; // Randomize heart color
+            heart.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's'; // Random speed (4-7s)
+            document.body.appendChild(heart);
+            
+            // Remove heart after animation ends to keep browser fast
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
+        // Create a new heart every 300ms
+        setInterval(createHeart, 300);
+
+
+        // --- QUIZ LOGIC ---
         function loadQuestion() {
             const q = questions[currentStep];
             questionText.innerText = q.text;
             
-            // Reset Views
             optionsContainer.innerHTML = '';
             inputContainer.classList.add('hidden');
             finalButtons.classList.add('hidden');
@@ -242,7 +297,7 @@
             } 
             else if (q.type === 'input') {
                 inputContainer.classList.remove('hidden');
-                dateInput.value = ''; // Clear previous input
+                dateInput.value = '';
                 dateInput.focus();
             }
             else if (q.type === 'final') {
@@ -251,17 +306,15 @@
             }
         }
 
-        // Handle Multiple Choice
         function handleAnswer(question, answer) {
             userAnswers[question] = answer;
             nextStep();
         }
 
-        // Handle Text Input
         function handleInput() {
             const val = dateInput.value.trim();
             if (val === "") {
-                alert("Please type a place!");
+                alert("Please type a place! 🥺");
                 return;
             }
             userAnswers[questions[currentStep].text] = val;
@@ -273,9 +326,8 @@
             loadQuestion();
         }
 
-        // --- FINAL TRICK LOGIC ---
+        // --- THE TRICK ---
         function setupFinalTricks() {
-            // Move No Button
             function moveButton() {
                 const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
                 const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -287,38 +339,24 @@
             noBtn.addEventListener('click', moveButton);
             noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
 
-            // Yes Button
             yesBtn.addEventListener('click', () => {
-                // 1. Show Surprise
                 surprise.style.display = 'flex';
-                
-                // 2. Fire Confetti
                 try { confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } }); } catch(e){}
-
-                // 3. Prepare the WhatsApp Message
                 prepareWhatsAppMessage();
             });
         }
 
         function prepareWhatsAppMessage() {
             let message = "Hey! I just said YES to being your Valentine! 💍❤️\n\nHere are my answers:\n";
-            
-            // Loop through answers and add them to the message
             for (const [question, answer] of Object.entries(userAnswers)) {
                 message += `\n❓ ${question}\n✅ ${answer}\n`;
             }
-
             message += "\nI love you! ❤️";
-
-            // Encode the message for URL
             const encodedMessage = encodeURIComponent(message);
-            const finalUrl = `https://wa.me/${yourPhoneNumber}?text=${encodedMessage}`;
-            
-            // Update the link href
-            whatsappLink.href = finalUrl;
+            whatsappLink.href = `https://wa.me/${yourPhoneNumber}?text=${encodedMessage}`;
         }
 
-        // Start
+        // Initialize
         loadQuestion();
     </script>
 </body>
