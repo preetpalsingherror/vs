@@ -1,36 +1,28 @@
-This is the **Extended "Journey of Love" Version**.
-
-I have expanded it to **12 Slides**. It acts like a digital book that she reads through. It starts playful, moves into cute choices, and ends with a very deep, emotional confession using the exact words you gave me.
-
-**Why this is better:**
-
-* **No Images:** It uses beautiful typography and emojis, so it loads instantly.
-* **The "Typing" Effect:** The deep emotional parts type out letter-by-letter, forcing her to read every word slowly.
-* **Interactive:** She has to tap to turn the "pages" of the story.
-
-### **The Code**
-
-Save as `index.html` and upload to GitHub.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Rose 🌹</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        body {
+        /* FIX: Global Reset to stop layout shifting */
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
+        }
+
+        body {
             height: 100vh;
+            width: 100vw;
             background-color: #000;
             font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* Prevents any scrolling */
         }
 
         /* Phone Container */
@@ -38,7 +30,6 @@ Save as `index.html` and upload to GitHub.
             width: 100%;
             height: 100%;
             max-width: 500px;
-            /* Romantic Gradient */
             background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 70%, #ffdde1 100%);
             position: relative;
             overflow: hidden;
@@ -54,7 +45,7 @@ Save as `index.html` and upload to GitHub.
             left: 0;
             width: 100%;
             display: flex;
-            padding: 0 10px;
+            padding: 0 10px; /* Padding inside the box */
             gap: 4px;
             z-index: 50;
         }
@@ -87,7 +78,6 @@ Save as `index.html` and upload to GitHub.
             align-items: center;
             text-align: center;
             padding: 30px;
-            box-sizing: border-box;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.6s ease, transform 0.6s ease;
@@ -150,6 +140,7 @@ Save as `index.html` and upload to GitHub.
             bottom: 0;
             width: 40%;
             z-index: 20;
+            /* background: rgba(255,0,0,0.1); Uncomment to debug tap zones */
         }
         .left-tap { left: 0; }
         .right-tap { right: 0; }
@@ -190,6 +181,7 @@ Save as `index.html` and upload to GitHub.
             font-size: 1.5rem;
             animation: flyUp 4s linear forwards;
             pointer-events: none;
+            z-index: 100;
         }
         @keyframes flyUp { to { transform: translateY(-100vh); opacity: 0; } }
 
@@ -199,8 +191,7 @@ Save as `index.html` and upload to GitHub.
 
     <div id="story-container">
         
-        <div class="progress-bar-container" id="progress-container">
-            </div>
+        <div class="progress-bar-container" id="progress-container"></div>
 
         <div class="tap-area left-tap" onclick="prevSlide()"></div>
         <div class="tap-area right-tap" onclick="nextSlide()"></div>
@@ -293,6 +284,9 @@ Save as `index.html` and upload to GitHub.
 
         // Init Progress Bars
         const progressContainer = document.getElementById('progress-container');
+        // Clear it first to prevent duplicates if reloaded
+        progressContainer.innerHTML = ""; 
+        
         for(let i=0; i<totalSlides; i++) {
             let bar = document.createElement('div');
             bar.className = 'progress-bar';
@@ -367,5 +361,3 @@ Save as `index.html` and upload to GitHub.
     </script>
 </body>
 </html>
-
-```
