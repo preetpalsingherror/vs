@@ -65,10 +65,9 @@
         .ring-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2.5rem; opacity: 0.8; animation: pulseRing 2s infinite; }
         @keyframes pulseRing { 0% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } 100% { transform: translate(-50%, -50%) scale(1); } }
 
-        /* --- FINAL PROPOSAL OVERLAY (BEAUTIFIED) --- */
+        /* --- FINAL PROPOSAL OVERLAY --- */
         #proposal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /* Romantic Background */
             background: radial-gradient(circle at center, #500020 0%, #090a0f 100%);
             z-index: 100;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -76,7 +75,7 @@
         }
         #proposal-overlay.visible { opacity: 1; pointer-events: all; }
 
-        /* The Beating Heart Background */
+        /* Background Heart Pulse */
         .heart-bg {
             position: absolute; width: 300px; height: 300px;
             background: radial-gradient(circle, rgba(255, 10, 84, 0.4) 0%, rgba(0,0,0,0) 70%);
@@ -85,14 +84,13 @@
         }
         @keyframes heartbeat { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 0.8; } 100% { transform: scale(1); opacity: 0.5; } }
 
-        /* The Text */
+        /* Text */
         .big-question {
             font-family: 'Great Vibes', cursive;
             font-size: 4rem;
             text-align: center;
             margin-bottom: 60px;
             z-index: 2;
-            /* Gold Gradient Text */
             background: linear-gradient(to bottom, #ffe29f, #ffa99f, #ff719a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -101,9 +99,19 @@
             line-height: 1.2;
         }
 
-        .btn-group { position: relative; width: 100%; height: 120px; display: flex; justify-content: center; align-items: center; z-index: 10; }
+        /* BUTTON CONTAINER - FIXED SPACING */
+        .btn-group { 
+            position: relative; 
+            width: 100%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 20px; /* Space between buttons */
+            z-index: 10; 
+            height: 100px;
+        }
 
-        /* YES Button (Jewel Style) */
+        /* YES BUTTON */
         .yes-btn {
             background: linear-gradient(135deg, #ff0a54, #ff477e);
             color: white; padding: 20px 60px;
@@ -111,17 +119,27 @@
             box-shadow: 0 0 40px rgba(255, 10, 84, 0.6), inset 0 0 10px rgba(255,255,255,0.4);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 2px solid rgba(255,255,255,0.2); cursor: pointer;
+            position: relative; 
+            z-index: 20; /* Keep Yes on top */
         }
         .yes-btn:active { transform: scale(0.95); }
 
+        /* NO BUTTON */
         .no-btn {
-            position: absolute;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white;
-            padding: 12px 30px; border-radius: 50px; font-size: 1rem;
-            cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px);
+            background: rgba(255,255,255,0.1); 
+            border: 1px solid rgba(255,255,255,0.3); 
+            color: white;
+            padding: 12px 30px; 
+            border-radius: 50px; 
+            font-size: 1rem;
+            cursor: pointer; 
+            transition: 0.2s; 
+            backdrop-filter: blur(5px);
+            position: relative; /* Starts normal flow */
+            z-index: 19;
         }
 
-        /* Toast */
+        /* TOAST */
         #toast {
             position: absolute; top: 15%;
             background: rgba(255,255,255,0.95); color: #d90429;
@@ -133,7 +151,6 @@
         }
         #toast.show { opacity: 1; transform: translateY(0); }
         
-        /* Floating Petals */
         .petal { position: absolute; background: rgba(255, 10, 84, 0.7); border-radius: 100% 0 100% 0; animation: fall 5s linear infinite; }
         @keyframes fall { 0% { opacity: 0; transform: translateY(0) rotate(0deg); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-100px) rotate(360deg); } }
 
@@ -174,7 +191,6 @@
             <div class="hold-container" id="hold-btn" 
                  onmousedown="startHold()" onmouseup="endHold()" 
                  ontouchstart="startHold()" ontouchend="endHold()">
-                
                 <svg class="progress-svg">
                     <circle stroke="rgba(255,255,255,0.1)" stroke-width="4" fill="transparent" r="45" cx="50" cy="50"></circle>
                     <circle class="progress-circle" stroke-width="4" fill="transparent" r="45" cx="50" cy="50" stroke-dasharray="283" stroke-dashoffset="283"></circle>
@@ -186,7 +202,8 @@
     </div>
 
     <div id="proposal-overlay">
-        <div class="heart-bg"></div> <div id="toast">You think I'm not good? 🥺</div>
+        <div class="heart-bg"></div>
+        <div id="toast">You think I'm not good? 🥺</div>
         
         <div class="big-question">Will You Be<br>Mine Forever?</div>
         
@@ -201,7 +218,7 @@
         // --- CONFIG ---
         const yourPhoneNumber = "917795253497"; 
 
-        // 1. GENERATE STARS
+        // 1. STARS
         const starsContainer = document.getElementById('stars');
         for(let i=0; i<100; i++) {
             const star = document.createElement('div');
@@ -215,7 +232,7 @@
             starsContainer.appendChild(star);
         }
 
-        // 2. CARD NAVIGATION
+        // 2. NAV
         function nextCard(current) {
             document.getElementById(`card-${current}`).classList.remove('active');
             document.getElementById(`card-${current}`).classList.add('exited');
@@ -224,7 +241,7 @@
             if(nextEl) nextEl.classList.add('active');
         }
 
-        // 3. HOLD LOGIC
+        // 3. HOLD
         const circle = document.querySelector('.progress-circle');
         const radius = circle.r.baseVal.value;
         const circumference = radius * 2 * Math.PI;
@@ -264,12 +281,12 @@
             document.getElementById('card-4').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('proposal-overlay').classList.add('visible');
-                createPetals(); // Start petals
+                createPetals();
                 fireConfetti();
             }, 500);
         }
 
-        // 4. THE NO BUTTON GAME
+        // 4. BUTTON LOGIC (FIXED)
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const toast = document.getElementById('toast');
@@ -288,6 +305,7 @@
         ];
 
         function moveButton() {
+            // 1. Shrink No, Grow Yes
             noScale -= 0.1;
             if(noScale < 0) noScale = 0;
             noBtn.style.transform = `scale(${noScale})`;
@@ -295,17 +313,20 @@
             yesScale += 0.2;
             yesBtn.style.transform = `scale(${yesScale})`;
 
+            // 2. Calculate Random Position (Full Screen)
             const w = window.innerWidth;
             const h = window.innerHeight;
-            const newX = (Math.random() - 0.5) * (w - 150);
-            const newY = (Math.random() - 0.5) * (h - 150);
             
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = '50%';
-            noBtn.style.top = '50%';
-            noBtn.style.marginLeft = newX + 'px';
-            noBtn.style.marginTop = newY + 'px';
+            // Random X/Y within the screen (minus padding)
+            const newX = Math.random() * (w - 100) + 50;
+            const newY = Math.random() * (h - 100) + 50;
 
+            // 3. Apply Fixed Position to breakout of container
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+
+            // 4. Show Toast
             const text = complaints[Math.floor(Math.random() * complaints.length)];
             toast.innerText = text;
             toast.classList.add('show');
@@ -315,20 +336,19 @@
         noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
         noBtn.addEventListener('mouseover', moveButton);
 
-        // 5. VISUALS
+        // 5. CELEBRATE
         function createPetals() {
             const container = document.getElementById('proposal-overlay');
             setInterval(() => {
                 const petal = document.createElement('div');
                 petal.classList.add('petal');
                 petal.style.left = Math.random() * 100 + '%';
-                petal.style.bottom = '-20px'; // Start from bottom
+                petal.style.bottom = '-20px'; 
                 const size = Math.random() * 10 + 5 + 'px';
                 petal.style.width = size;
                 petal.style.height = size;
                 container.appendChild(petal);
                 
-                // Animate up
                 let pos = -20;
                 let rotate = 0;
                 const interval = setInterval(() => {
