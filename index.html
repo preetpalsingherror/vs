@@ -2,53 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>For Us ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My Universe 🌌</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- IPHONE OPTIMIZATION & RESET --- */
+        /* --- RESET & CORE --- */
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        
+
         body {
             height: 100vh;
             width: 100vw;
-            background: #000;
-            font-family: 'Lato', sans-serif;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            font-family: 'Montserrat', sans-serif;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
-            /* Deep Space Gradient */
-            background: radial-gradient(circle at top left, #2b1055, #7597de); 
-            background-size: 200% 200%;
-            animation: gradientBG 15s ease infinite;
+            perspective: 1000px; /* For 3D effects */
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* --- STARRY BACKGROUND (CSS Only) --- */
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) ease-in-out infinite;
         }
 
-        /* --- THE GLASS CARD CONTAINER --- */
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        /* --- GLASS CARDS --- */
         .card-container {
             position: relative;
             width: 90%;
             max-width: 400px;
-            height: 70vh;
-            perspective: 1000px;
+            height: 60vh;
+            z-index: 10;
         }
 
         .glass-card {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 30px;
             padding: 40px 30px;
             display: flex;
@@ -56,230 +71,165 @@
             justify-content: space-between;
             align-items: center;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             
-            /* Transition Logic */
+            /* Animation States */
             opacity: 0;
-            transform: translateX(100px) scale(0.9);
+            transform: translateY(50px) scale(0.9);
             pointer-events: none;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .glass-card.active {
             opacity: 1;
-            transform: translateX(0) scale(1);
+            transform: translateY(0) scale(1);
             pointer-events: all;
-            z-index: 10;
         }
 
         .glass-card.exited {
             opacity: 0;
-            transform: translateX(-100px) scale(0.9);
+            transform: translateY(-100px) scale(0.95);
             pointer-events: none;
         }
 
         /* --- TYPOGRAPHY --- */
         h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, #fbc2eb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #ff9a9e;
+            text-shadow: 0 0 10px rgba(255, 154, 158, 0.3);
+            line-height: 1.2;
         }
 
         p {
             font-size: 1.1rem;
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255, 255, 255, 0.8);
             font-weight: 300;
-        }
-
-        .fact-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #fbc2eb;
-            margin-bottom: 10px;
-            display: block;
         }
 
         /* --- BUTTONS --- */
         .next-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            border: 1px solid rgba(255,255,255,0.2);
             color: white;
             padding: 15px 40px;
             border-radius: 50px;
             font-size: 1rem;
             cursor: pointer;
-            transition: 0.2s;
-            margin-top: 20px;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
         }
-        .next-btn:active { background: rgba(255,255,255,0.4); }
+        .next-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
 
-        .choice-btn {
-            width: 100%;
-            padding: 15px;
-            margin: 8px 0;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 15px;
-            text-align: left;
-            padding-left: 20px;
-            font-size: 1rem;
-        }
-        .choice-btn:active { background: rgba(255,255,255,0.1); }
-
-        /* --- THE HOLD RING (FINALE) --- */
+        /* --- HOLD RING --- */
         .hold-container {
             position: relative;
             width: 100px;
             height: 100px;
             margin: auto;
+            cursor: pointer;
         }
         
-        .progress-svg {
-            transform: rotate(-90deg);
-            width: 100%;
-            height: 100%;
-        }
-        
-        .progress-circle {
-            transition: stroke-dashoffset 0.1s;
-            stroke: #ff6b6b;
-        }
-
+        .progress-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .progress-circle { transition: stroke-dashoffset 0.1s; stroke: #ff9a9e; filter: drop-shadow(0 0 5px #ff9a9e); }
         .ring-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            opacity: 0.8;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 2.5rem; opacity: 0.8;
+            animation: pulseRing 2s infinite;
         }
+        @keyframes pulseRing { 0% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } 100% { transform: translate(-50%, -50%) scale(1); } }
 
-        /* --- FINAL PROPOSAL OVERLAY --- */
+        /* --- PROPOSAL OVERLAY --- */
         #proposal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
             z-index: 100;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1s ease;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 1s ease;
         }
-
         #proposal-overlay.visible { opacity: 1; pointer-events: all; }
 
         .big-question {
-            font-family: 'Cinzel', serif;
-            font-size: 2.2rem;
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
             text-align: center;
-            margin-bottom: 40px;
-            color: #ff6b6b;
-            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            margin-bottom: 50px;
+            color: #ff9a9e;
+            text-shadow: 0 0 20px rgba(255, 154, 158, 0.6);
             padding: 0 20px;
         }
 
-        /* YES / NO BUTTONS */
-        .btn-group {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-        }
+        .btn-group { position: relative; width: 100%; height: 100px; display: flex; justify-content: center; align-items: center; }
 
         .yes-btn {
-            background: #ff6b6b;
-            color: white;
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
-            z-index: 200;
+            background: #ff0a54; color: white; padding: 15px 40px;
+            border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.5rem;
+            box-shadow: 0 0 30px rgba(255, 10, 84, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200; border: none; cursor: pointer;
         }
 
         .no-btn {
-            background: transparent;
-            border: 2px solid #ffffff;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
-            z-index: 200;
+            position: absolute;
+            background: transparent; border: 2px solid rgba(255,255,255,0.5); color: white;
+            padding: 10px 25px; border-radius: 50px; font-size: 1rem;
+            cursor: pointer; transition: 0.2s;
+            z-index: 199;
         }
 
-        /* THE FUNNY NOTIFICATION */
-        #toast-notification {
-            position: absolute;
-            top: 20%;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        /* --- TOAST NOTIFICATION --- */
+        #toast {
+            position: absolute; top: 15%;
+            background: white; color: #ff0a54;
+            padding: 12px 25px; border-radius: 20px;
+            font-weight: bold; font-size: 0.9rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            opacity: 0; transform: translateY(-20px);
+            transition: all 0.3s; pointer-events: none;
         }
-        #toast-notification.show { opacity: 1; }
+        #toast.show { opacity: 1; transform: translateY(0); }
+        
+        /* Floating Hearts */
+        .heart { position: fixed; color: #ff0a54; font-size: 20px; animation: floatUp 4s linear forwards; pointer-events: none; z-index: 50; }
+        @keyframes floatUp { to { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
 
     </style>
 </head>
 <body>
 
+    <div class="stars" id="stars"></div>
+
     <div class="card-container">
         
         <div class="glass-card active" id="card-1">
-            <div>
-                <span class="fact-label">Did you know?</span>
-                <h1>The Sync Effect</h1>
-                <p>Psychology says that when two people who love each other stare into each other's eyes for 3 minutes, their heart rates synchronize.</p>
-                <br>
-                <p>My heart has been beating in rhythm with yours since the day we met.</p>
-            </div>
-            <button class="next-btn" onclick="nextCard(1)">Really? ➜</button>
+            <h1>Hey Beautiful...</h1>
+            <p>I wanted to create something special for you today.</p>
+            <p>Because you are the most special person in my universe.</p>
+            <button class="next-btn" onclick="nextCard(1)">What is it? ➜</button>
         </div>
 
         <div class="glass-card" id="card-2">
-            <div>
-                <h1>A Question...</h1>
-                <p>If our love story was a movie genre, what would it be?</p>
-                <button class="choice-btn" onclick="nextCard(2)">A Romantic Comedy 🎬</button>
-                <button class="choice-btn" onclick="nextCard(2)">A Fairytale 🏰</button>
-                <button class="choice-btn" onclick="nextCard(2)">An Epic Adventure 🚀</button>
-            </div>
+            <h1>A Fact</h1>
+            <p>They say there are 8 billion people in the world.</p>
+            <br>
+            <p>But my heart only beats faster for one of them.</p>
+            <button class="next-btn" onclick="nextCard(2)">Who? ➜</button>
         </div>
 
         <div class="glass-card" id="card-3">
-            <div>
-                <h1>The Truth</h1>
-                <p>"They say it takes 0.2 seconds to fall in love."</p>
-                <br>
-                <p>But honestly? It took me even less time to realize that I never want to spend a day without you.</p>
-            </div>
+            <h1>You.</h1>
+            <p>You are my laughter, my peace, and my home.</p>
+            <p>I don't just want you for today...</p>
             <button class="next-btn" onclick="nextCard(3)">Continue ➜</button>
         </div>
 
         <div class="glass-card" id="card-4">
-            <div>
-                <h1>One Last Thing</h1>
-                <p>I have a question locked inside this ring.</p>
-                <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.7;">(Hold the ring to unlock it)</p>
-            </div>
-
+            <h1>Unlock My Heart</h1>
+            <p style="margin-bottom: 30px;">Hold the ring to reveal the question I've been waiting to ask.</p>
+            
             <div class="hold-container" id="hold-btn" 
                  onmousedown="startHold()" onmouseup="endHold()" 
                  ontouchstart="startHold()" ontouchend="endHold()">
@@ -295,12 +245,12 @@
     </div>
 
     <div id="proposal-overlay">
-        <div id="toast-notification">You think I'm not good? 🥺</div>
-
-        <div class="big-question">Will You Be<br>Mine Forever? 🥺</div>
+        <div id="toast">You think I'm not good? 🥺</div>
+        
+        <div class="big-question">Will You Be<br>Mine Forever?</div>
         
         <div class="btn-group">
-            <a href="#" id="whatsapp-link" class="yes-btn" onclick="celebrate()">YES! ❤️</a>
+            <button class="yes-btn" id="yesBtn" onclick="celebrate()">YES! ❤️</button>
             <button class="no-btn" id="noBtn">No</button>
         </div>
     </div>
@@ -308,18 +258,32 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         // --- CONFIG ---
-        const yourPhoneNumber = "917795253497"; // YOUR NUMBER
+        const yourPhoneNumber = "917795253497"; 
 
-        // Navigation Logic
+        // 1. GENERATE STARS
+        const starsContainer = document.getElementById('stars');
+        for(let i=0; i<100; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            const size = Math.random() * 3 + 1 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+            starsContainer.appendChild(star);
+        }
+
+        // 2. CARD NAVIGATION
         function nextCard(current) {
             document.getElementById(`card-${current}`).classList.remove('active');
             document.getElementById(`card-${current}`).classList.add('exited');
             const next = current + 1;
             const nextEl = document.getElementById(`card-${next}`);
-            if (nextEl) nextEl.classList.add('active');
+            if(nextEl) nextEl.classList.add('active');
         }
 
-        // Hold Logic
+        // 3. HOLD LOGIC
         const circle = document.querySelector('.progress-circle');
         const radius = circle.r.baseVal.value;
         const circumference = radius * 2 * Math.PI;
@@ -363,68 +327,62 @@
             }, 500);
         }
 
-        function fireConfetti() {
-            var duration = 3000;
-            var end = Date.now() + duration;
-            (function frame() {
-                confetti({ particleCount: 5, spread: 55, origin: { x: 0 }, colors: ['#ff6b6b', '#ffffff'] });
-                confetti({ particleCount: 5, spread: 55, origin: { x: 1 }, colors: ['#ff6b6b', '#ffffff'] });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
-        }
-
-        function celebrate() {
-            const msg = "Happy Propose Day! 💍 I said YES! I want to be yours forever. ❤️";
-            document.getElementById('whatsapp-link').href = `https://wa.me/${yourPhoneNumber}?text=${encodeURIComponent(msg)}`;
-        }
-
-        // --- MOVING NO BUTTON LOGIC ---
+        // 4. THE NO BUTTON GAME
         const noBtn = document.getElementById('noBtn');
-        const toast = document.getElementById('toast-notification');
+        const yesBtn = document.getElementById('yesBtn');
+        const toast = document.getElementById('toast');
         
-        // Cute funny phrases
+        let noScale = 1;
+        let yesScale = 1;
+
         const complaints = [
             "You think I'm not good? 🥺",
             "Hey! Wrong button! 😤",
             "Are you sure? 💔",
             "Don't break my heart! 🙈",
             "Nice try! 😈",
-            "Click the other one! 👉",
+            "Click the BIG one! 👉",
             "I'm gonna cry... 😭"
         ];
 
         function moveButton() {
-            // Get viewport dimensions
+            // Shrink No
+            noScale -= 0.1;
+            if(noScale < 0) noScale = 0; // Disappear eventually
+            noBtn.style.transform = `scale(${noScale})`;
+
+            // Grow Yes
+            yesScale += 0.2;
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // Move Randomly
             const w = window.innerWidth;
             const h = window.innerHeight;
+            const newX = (Math.random() - 0.5) * (w - 100);
+            const newY = (Math.random() - 0.5) * (h - 100);
             
-            // Generate random position
-            // Keep it away from the edges
-            const newX = Math.random() * (w - 100) + 20;
-            const newY = Math.random() * (h - 100) + 50;
+            noBtn.style.position = 'absolute';
+            noBtn.style.transform = `translate(${newX}px, ${newY}px) scale(${noScale})`;
 
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = newX + 'px';
-            noBtn.style.top = newY + 'px';
-
-            // Show Toast with random text
-            const randomText = complaints[Math.floor(Math.random() * complaints.length)];
-            toast.innerText = randomText;
+            // Toast
+            const text = complaints[Math.floor(Math.random() * complaints.length)];
+            toast.innerText = text;
             toast.classList.add('show');
-            
-            // Hide toast after 2 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
+            setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // Trigger on touch (for mobile) and hover (for desktop)
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // prevents click
-            moveButton();
-        });
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
         noBtn.addEventListener('mouseover', moveButton);
 
+        // 5. CELEBRATE
+        function fireConfetti() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff0a54', '#ff477e'] });
+        }
+
+        function celebrate() {
+            const msg = "Happy Propose Day! 💍 I said YES! I want to be yours forever. ❤️";
+            window.location.href = `https://wa.me/${yourPhoneNumber}?text=${encodeURIComponent(msg)}`;
+        }
     </script>
 </body>
 </html>
