@@ -37,7 +37,7 @@
             position: relative;
             width: 90%;
             max-width: 400px;
-            height: 70vh; /* Takes up 70% of screen height */
+            height: 70vh;
             perspective: 1000px;
         }
 
@@ -47,20 +47,20 @@
             height: 100%;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px); /* For Safari */
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 30px;
             padding: 40px 30px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Space out content */
+            justify-content: space-between;
             align-items: center;
             text-align: center;
             box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             
             /* Transition Logic */
             opacity: 0;
-            transform: translateX(100px) scale(0.9); /* Start off-screen right */
+            transform: translateX(100px) scale(0.9);
             pointer-events: none;
             transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
@@ -74,7 +74,7 @@
 
         .glass-card.exited {
             opacity: 0;
-            transform: translateX(-100px) scale(0.9); /* Exit left */
+            transform: translateX(-100px) scale(0.9);
             pointer-events: none;
         }
 
@@ -164,7 +164,7 @@
         #proposal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: black;
+            background: rgba(0,0,0,0.9);
             z-index: 100;
             display: flex;
             flex-direction: column;
@@ -179,22 +179,62 @@
 
         .big-question {
             font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             text-align: center;
             margin-bottom: 40px;
             color: #ff6b6b;
             text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            padding: 0 20px;
+        }
+
+        /* YES / NO BUTTONS */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
         }
 
         .yes-btn {
-            background: white;
-            color: black;
-            padding: 20px 50px;
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 40px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
             font-size: 1.2rem;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+            z-index: 200;
         }
+
+        .no-btn {
+            background: transparent;
+            border: 2px solid #ffffff;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 200;
+        }
+
+        /* THE FUNNY NOTIFICATION */
+        #toast-notification {
+            position: absolute;
+            top: 20%;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        #toast-notification.show { opacity: 1; }
 
     </style>
 </head>
@@ -255,8 +295,14 @@
     </div>
 
     <div id="proposal-overlay">
-        <div class="big-question">Will You Be<br>Mine Forever?</div>
-        <a href="#" id="whatsapp-link" class="yes-btn" onclick="celebrate()">YES, I Will! ❤️</a>
+        <div id="toast-notification">You think I'm not good? 🥺</div>
+
+        <div class="big-question">Will You Be<br>Mine Forever? 🥺</div>
+        
+        <div class="btn-group">
+            <a href="#" id="whatsapp-link" class="yes-btn" onclick="celebrate()">YES! ❤️</a>
+            <button class="no-btn" id="noBtn">No</button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -268,12 +314,9 @@
         function nextCard(current) {
             document.getElementById(`card-${current}`).classList.remove('active');
             document.getElementById(`card-${current}`).classList.add('exited');
-            
             const next = current + 1;
             const nextEl = document.getElementById(`card-${next}`);
-            if (nextEl) {
-                nextEl.classList.add('active');
-            }
+            if (nextEl) nextEl.classList.add('active');
         }
 
         // Hold Logic
@@ -334,6 +377,54 @@
             const msg = "Happy Propose Day! 💍 I said YES! I want to be yours forever. ❤️";
             document.getElementById('whatsapp-link').href = `https://wa.me/${yourPhoneNumber}?text=${encodeURIComponent(msg)}`;
         }
+
+        // --- MOVING NO BUTTON LOGIC ---
+        const noBtn = document.getElementById('noBtn');
+        const toast = document.getElementById('toast-notification');
+        
+        // Cute funny phrases
+        const complaints = [
+            "You think I'm not good? 🥺",
+            "Hey! Wrong button! 😤",
+            "Are you sure? 💔",
+            "Don't break my heart! 🙈",
+            "Nice try! 😈",
+            "Click the other one! 👉",
+            "I'm gonna cry... 😭"
+        ];
+
+        function moveButton() {
+            // Get viewport dimensions
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            
+            // Generate random position
+            // Keep it away from the edges
+            const newX = Math.random() * (w - 100) + 20;
+            const newY = Math.random() * (h - 100) + 50;
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+
+            // Show Toast with random text
+            const randomText = complaints[Math.floor(Math.random() * complaints.length)];
+            toast.innerText = randomText;
+            toast.classList.add('show');
+            
+            // Hide toast after 2 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Trigger on touch (for mobile) and hover (for desktop)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // prevents click
+            moveButton();
+        });
+        noBtn.addEventListener('mouseover', moveButton);
+
     </script>
 </body>
 </html>
