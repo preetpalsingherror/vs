@@ -2,276 +2,261 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For My Rose 🌹</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>For Us ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     
     <style>
-        /* FIX: Global Reset to stop layout shifting */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* --- IPHONE OPTIMIZATION & RESET --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
         body {
             height: 100vh;
             width: 100vw;
-            background-color: #000;
-            font-family: 'Poppins', sans-serif;
+            background: #000;
+            font-family: 'Lato', sans-serif;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* Prevents any scrolling */
+            color: white;
+            /* Deep Space Gradient */
+            background: radial-gradient(circle at top left, #2b1055, #7597de); 
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
         }
 
-        /* Phone Container */
-        #story-container {
-            width: 100%;
-            height: 100%;
-            max-width: 500px;
-            background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 70%, #ffdde1 100%);
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- THE GLASS CARD CONTAINER --- */
+        .card-container {
             position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 400px;
+            height: 70vh; /* Takes up 70% of screen height */
+            perspective: 1000px;
         }
 
-        /* Progress Bars */
-        .progress-bar-container {
+        .glass-card {
             position: absolute;
-            top: 15px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            padding: 0 10px; /* Padding inside the box */
-            gap: 4px;
-            z-index: 50;
-        }
-
-        .progress-bar {
-            flex: 1;
-            height: 3px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #d6336c;
-            transition: width 0.3s ease;
-        }
-
-        /* Slides */
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); /* For Safari */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 40px 30px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between; /* Space out content */
             align-items: center;
             text-align: center;
-            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            
+            /* Transition Logic */
             opacity: 0;
+            transform: translateX(100px) scale(0.9); /* Start off-screen right */
             pointer-events: none;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-            transform: scale(0.95);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        .slide.active {
+        .glass-card.active {
             opacity: 1;
+            transform: translateX(0) scale(1);
             pointer-events: all;
-            transform: scale(1);
             z-index: 10;
         }
 
-        /* Typography */
+        .glass-card.exited {
+            opacity: 0;
+            transform: translateX(-100px) scale(0.9); /* Exit left */
+            pointer-events: none;
+        }
+
+        /* --- TYPOGRAPHY --- */
         h1 {
-            color: #c92a2a;
-            font-size: 2.2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
             margin-bottom: 20px;
-            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+            background: linear-gradient(to right, #fff, #fbc2eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
-            color: #862e9c;
             font-size: 1.1rem;
             line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
         }
 
-        .big-emoji {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            animation: float 3s infinite ease-in-out;
+        .fact-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fbc2eb;
+            margin-bottom: 10px;
+            display: block;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* Buttons */
-        .choice-btn {
-            background: rgba(255, 255, 255, 0.7);
-            border: 2px solid #fff;
-            color: #d6336c;
-            padding: 15px 25px;
-            margin: 10px 0;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.2s;
-        }
-
-        .choice-btn:active { transform: scale(0.95); background: white; }
-
-        /* Navigation Taps */
-        .tap-area {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 40%;
-            z-index: 20;
-            /* background: rgba(255,0,0,0.1); Uncomment to debug tap zones */
-        }
-        .left-tap { left: 0; }
-        .right-tap { right: 0; }
-
-        /* Deep Message Styling */
-        .deep-text {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-            color: #a61e4d;
-            margin-top: 20px;
-        }
-
-        /* Final Button */
-        .final-btn {
-            background: #c92a2a;
+        /* --- BUTTONS --- */
+        .next-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             color: white;
-            text-decoration: none;
             padding: 15px 40px;
             border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            box-shadow: 0 5px 20px rgba(201, 42, 42, 0.4);
-            margin-top: 30px;
-            display: inline-block;
-            animation: pulse 2s infinite;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 20px;
+        }
+        .next-btn:active { background: rgba(255,255,255,0.4); }
+
+        .choice-btn {
+            width: 100%;
+            padding: 15px;
+            margin: 8px 0;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 15px;
+            text-align: left;
+            padding-left: 20px;
+            font-size: 1rem;
+        }
+        .choice-btn:active { background: rgba(255,255,255,0.1); }
+
+        /* --- THE HOLD RING (FINALE) --- */
+        .hold-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: auto;
+        }
+        
+        .progress-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+        
+        .progress-circle {
+            transition: stroke-dashoffset 0.1s;
+            stroke: #ff6b6b;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* Floating Hearts */
-        .heart {
+        .ring-icon {
             position: absolute;
-            color: #d6336c;
-            font-size: 1.5rem;
-            animation: flyUp 4s linear forwards;
-            pointer-events: none;
-            z-index: 100;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            opacity: 0.8;
         }
-        @keyframes flyUp { to { transform: translateY(-100vh); opacity: 0; } }
+
+        /* --- FINAL PROPOSAL OVERLAY --- */
+        #proposal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: black;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        #proposal-overlay.visible { opacity: 1; pointer-events: all; }
+
+        .big-question {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .yes-btn {
+            background: white;
+            color: black;
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
 
     </style>
 </head>
 <body>
 
-    <div id="story-container">
+    <div class="card-container">
         
-        <div class="progress-bar-container" id="progress-container"></div>
-
-        <div class="tap-area left-tap" onclick="prevSlide()"></div>
-        <div class="tap-area right-tap" onclick="nextSlide()"></div>
-
-        <div class="slide active" id="slide-0">
-            <div class="big-emoji">🌹</div>
-            <h1>Happy Rose Day</h1>
-            <p>I made a little story for you...<br>Because you are special.</p>
-            <p style="font-size: 0.8rem; margin-top: 30px; opacity: 0.6;">(Tap right to turn the page ➜)</p>
+        <div class="glass-card active" id="card-1">
+            <div>
+                <span class="fact-label">Did you know?</span>
+                <h1>The Sync Effect</h1>
+                <p>Psychology says that when two people who love each other stare into each other's eyes for 3 minutes, their heart rates synchronize.</p>
+                <br>
+                <p>My heart has been beating in rhythm with yours since the day we met.</p>
+            </div>
+            <button class="next-btn" onclick="nextCard(1)">Really? ➜</button>
         </div>
 
-        <div class="slide" id="slide-1">
-            <div class="big-emoji">👋</div>
-            <h1>First off...</h1>
-            <p>I hope you are smiling right now.<br>Your smile is literally my favorite thing.</p>
+        <div class="glass-card" id="card-2">
+            <div>
+                <h1>A Question...</h1>
+                <p>If our love story was a movie genre, what would it be?</p>
+                <button class="choice-btn" onclick="nextCard(2)">A Romantic Comedy 🎬</button>
+                <button class="choice-btn" onclick="nextCard(2)">A Fairytale 🏰</button>
+                <button class="choice-btn" onclick="nextCard(2)">An Epic Adventure 🚀</button>
+            </div>
         </div>
 
-        <div class="slide" id="slide-2">
-            <h1>Quick Question...</h1>
-            <p>If we were in a garden right now, which flower would you pick?</p>
-            <button class="choice-btn" onclick="nextSlide()">A Red Rose (Classic) 🌹</button>
-            <button class="choice-btn" onclick="nextSlide()">A White Lily (Peace) 🤍</button>
-            <button class="choice-btn" onclick="nextSlide()">A Sunflower (Bright) 🌻</button>
+        <div class="glass-card" id="card-3">
+            <div>
+                <h1>The Truth</h1>
+                <p>"They say it takes 0.2 seconds to fall in love."</p>
+                <br>
+                <p>But honestly? It took me even less time to realize that I never want to spend a day without you.</p>
+            </div>
+            <button class="next-btn" onclick="nextCard(3)">Continue ➜</button>
         </div>
 
-        <div class="slide" id="slide-3">
-            <h1>Another one...</h1>
-            <p>What goes best with flowers?</p>
-            <button class="choice-btn" onclick="nextSlide()">Chocolates 🍫</button>
-            <button class="choice-btn" onclick="nextSlide()">A tight hug 🤗</button>
-            <button class="choice-btn" onclick="nextSlide()">Handwritten Letter 💌</button>
+        <div class="glass-card" id="card-4">
+            <div>
+                <h1>One Last Thing</h1>
+                <p>I have a question locked inside this ring.</p>
+                <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.7;">(Hold the ring to unlock it)</p>
+            </div>
+
+            <div class="hold-container" id="hold-btn" 
+                 onmousedown="startHold()" onmouseup="endHold()" 
+                 ontouchstart="startHold()" ontouchend="endHold()">
+                
+                <svg class="progress-svg">
+                    <circle stroke="rgba(255,255,255,0.1)" stroke-width="4" fill="transparent" r="45" cx="50" cy="50"></circle>
+                    <circle class="progress-circle" stroke-width="4" fill="transparent" r="45" cx="50" cy="50" stroke-dasharray="283" stroke-dashoffset="283"></circle>
+                </svg>
+                <div class="ring-icon">💍</div>
+            </div>
         </div>
 
-        <div class="slide" id="slide-4">
-            <div class="big-emoji">🥺</div>
-            <h1>Last question...</h1>
-            <p>Do you know how much I miss you?</p>
-            <button class="choice-btn" onclick="nextSlide()">A little? 🤏</button>
-            <button class="choice-btn" onclick="nextSlide()">A LOT? 🌍</button>
-        </div>
+    </div>
 
-        <div class="slide" id="slide-5">
-            <div class="big-emoji">✨</div>
-            <h1>Okay, listen closely...</h1>
-            <p>I want to tell you something real.</p>
-            <p style="font-size: 0.9rem;">(Tap to read my heart...)</p>
-        </div>
-
-        <div class="slide" id="slide-6">
-            <div class="deep-text">"You are the one I truly love, and have ever loved."</div>
-        </div>
-
-        <div class="slide" id="slide-7">
-            <div class="deep-text">"I love absolutely everything about you."</div>
-            <p style="margin-top:20px;">(Even the little things)</p>
-        </div>
-
-        <div class="slide" id="slide-8">
-            <div class="deep-text">"I want to spend all the time I have left with you."</div>
-        </div>
-
-        <div class="slide" id="slide-9">
-            <div class="deep-text">"I just want to keep doing things for you, just to see you smile always."</div>
-            <div class="big-emoji" style="margin-top:20px;">😊</div>
-        </div>
-
-        <div class="slide" id="slide-10">
-            <div class="big-emoji">❤️</div>
-            <h1>So...</h1>
-            <p>Will you be my Rose?</p>
-            <p>Today, tomorrow, and forever?</p>
-        </div>
-
-        <div class="slide" id="slide-11">
-            <div class="big-emoji">💌</div>
-            <h1>Send me your answer</h1>
-            <p>I'm waiting...</p>
-            <a id="whatsapp-link" href="#" class="final-btn" onclick="celebrate()">YES! Always! 🌹</a>
-        </div>
-
+    <div id="proposal-overlay">
+        <div class="big-question">Will You Be<br>Mine Forever?</div>
+        <a href="#" id="whatsapp-link" class="yes-btn" onclick="celebrate()">YES, I Will! ❤️</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -279,85 +264,76 @@
         // --- CONFIG ---
         const yourPhoneNumber = "917795253497"; // YOUR NUMBER
 
-        let currentSlide = 0;
-        const totalSlides = 12;
-
-        // Init Progress Bars
-        const progressContainer = document.getElementById('progress-container');
-        // Clear it first to prevent duplicates if reloaded
-        progressContainer.innerHTML = ""; 
-        
-        for(let i=0; i<totalSlides; i++) {
-            let bar = document.createElement('div');
-            bar.className = 'progress-bar';
-            let fill = document.createElement('div');
-            fill.className = 'progress-fill';
-            fill.id = `fill-${i}`;
-            bar.appendChild(fill);
-            progressContainer.appendChild(bar);
+        // Navigation Logic
+        function nextCard(current) {
+            document.getElementById(`card-${current}`).classList.remove('active');
+            document.getElementById(`card-${current}`).classList.add('exited');
+            
+            const next = current + 1;
+            const nextEl = document.getElementById(`card-${next}`);
+            if (nextEl) {
+                nextEl.classList.add('active');
+            }
         }
 
-        function updateProgress() {
-            for (let i = 0; i < totalSlides; i++) {
-                const fill = document.getElementById(`fill-${i}`);
-                if (i <= currentSlide) {
-                    fill.style.width = "100%";
-                } else {
-                    fill.style.width = "0%";
+        // Hold Logic
+        const circle = document.querySelector('.progress-circle');
+        const radius = circle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        let progress = 0;
+        let interval;
+        let isHolding = false;
+
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference;
+
+        function setProgress(percent) {
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        function startHold() {
+            isHolding = true;
+            interval = setInterval(() => {
+                if (!isHolding) return;
+                progress += 2;
+                setProgress(progress);
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    triggerProposal();
                 }
-            }
+            }, 30);
         }
 
-        function nextSlide() {
-            if (currentSlide < totalSlides - 1) {
-                // Remove active from current
-                document.getElementById(`slide-${currentSlide}`).classList.remove('active');
-                
-                // Add active to next
-                currentSlide++;
-                document.getElementById(`slide-${currentSlide}`).classList.add('active');
-                
-                updateProgress();
-                createHearts(); // Visual feedback
-            }
+        function endHold() {
+            isHolding = false;
+            clearInterval(interval);
+            progress = 0;
+            setProgress(0);
         }
 
-        function prevSlide() {
-            if (currentSlide > 0) {
-                document.getElementById(`slide-${currentSlide}`).classList.remove('active');
-                currentSlide--;
-                document.getElementById(`slide-${currentSlide}`).classList.add('active');
-                updateProgress();
-            }
+        function triggerProposal() {
+            document.getElementById('card-4').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('proposal-overlay').classList.add('visible');
+                fireConfetti();
+            }, 500);
         }
 
-        function createHearts() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 80 + 10 + '%';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 4000);
+        function fireConfetti() {
+            var duration = 3000;
+            var end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, spread: 55, origin: { x: 0 }, colors: ['#ff6b6b', '#ffffff'] });
+                confetti({ particleCount: 5, spread: 55, origin: { x: 1 }, colors: ['#ff6b6b', '#ffffff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
         }
 
         function celebrate() {
-            // Confetti
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff0a54', '#ff477e']
-            });
-
-            // Message
-            const msg = `Happy Rose Day! 🌹\n\nI read your story and loved it! \n\n"I want to be your Rose forever!" ❤️`;
-            
-            // Link
+            const msg = "Happy Propose Day! 💍 I said YES! I want to be yours forever. ❤️";
             document.getElementById('whatsapp-link').href = `https://wa.me/${yourPhoneNumber}?text=${encodeURIComponent(msg)}`;
         }
-
-        // Init
-        updateProgress();
     </script>
 </body>
 </html>
